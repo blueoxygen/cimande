@@ -1,0 +1,24 @@
+<decorators>
+	<excludes>
+		<pattern>/styles/*</pattern>
+		<pattern>/scripts/*</pattern>
+		<pattern>/images/*</pattern>
+		<pattern>*.json</pattern>
+		<pattern>*.xml</pattern>
+		<pattern>*.htm</pattern>
+	</excludes>
+
+	<decorator name="frontpage" page="/view/decorator/default/frontpage.ftl">
+		<pattern>/landing</pattern>
+		<pattern>/landing/**</pattern>
+		<pattern>/login</pattern>
+		<pattern>/register</pattern>
+	</decorator>
+	<decorator name="dashboard" page="/view/decorator/default/dashboard.ftl">
+		<pattern>/</pattern>
+		<pattern>/dashboard</pattern>
+		<pattern>/dashboard/**</pattern>
+		<pattern>/admin</pattern>
+		<pattern>/admin/**</pattern>
+	</decorator>
+</decorators> 
