@@ -11,5 +11,7 @@ public interface UserSiteRepository extends DefaultRepository<UserSite>{
 	
 	UserSite findByUserUsernameAndSiteName(String username, String sitename);
 	
+	UserSite findByUserUsernameAndSiteVirtualHost(String username, String virtualHost);
+	
 	Page<UserSite> findByUserUsername(String username, Pageable pageable);
 }

@@ -11,6 +11,8 @@ public interface SiteManager {
 	
 	Site findSiteByName(String name);
 	
+	Site findSiteByVirtualHost(String virtualHost);
+	
 	Site updateStatus(Site site, int status);
 	
 	boolean removeSite(Site site);

@@ -4,6 +4,8 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.blueoxygen.cimande.security.SessionCredentials;
+import org.blueoxygen.modules.papaje.category.Category;
+import org.blueoxygen.modules.papaje.category.CategoryManager;
 import org.blueoxygen.modules.papaje.employee.Employee;
 import org.blueoxygen.modules.papaje.employee.EmployeeManager;
 import org.blueoxygen.modules.papaje.employer.Employer;
@@ -35,6 +37,9 @@ public class JobAction extends ActionSupport {
 	@Inject
 	private JobEmployeeManager jobEmployeeManager;
 	
+	@Inject
+	private CategoryManager categoryManager;
+	
 	@Action(method = HttpMethod.GET)
 	public ActionResult jobList(@ActionParam("q") String q, @ActionParam("max") int max, @ActionParam("page") int page) {
 		max = max == 0 ? 10 : max;
@@ -55,7 +60,11 @@ public class JobAction extends ActionSupport {
 		if(employer.getCompany() != null)
 			job.setCompany(employer.getCompany());
 		
-		return new ActionResult("freemarker", "/view/papaje/job/job-form.ftl").addToModel("job", job);
+		Page<? extends Category> categories = categoryManager.findCategoryByName( "", new PageRequest(0, 10));
+		
+		return new ActionResult("freemarker", "/view/papaje/job/job-form.ftl")
+			.addToModel("job", job)
+			.addToModel("categories", categories);
 	}
 
 	@Action(name = "/{id}/edit", method = HttpMethod.POST)
@@ -104,7 +113,6 @@ public class JobAction extends ActionSupport {
 		max = max == 0 ? 10 : max;
 		
 		String employeeId = employeeManager.findByUsername(SessionCredentials.getCurrentUsername()).getId();
-		System.out.println("------"+employeeId);
 		Page<? extends Job> jobs = jobEmployeeManager.findAppliedJobByEmployee(q, employeeId, new PageRequest(page, max));
 		
 		return new ActionResult("freemarker", "/view/papaje/job/job-applied.ftl").addToModel("jobs", jobs);

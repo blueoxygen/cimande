@@ -5,9 +5,11 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.blueoxygen.cimande.site.Site;
 import org.blueoxygen.cimande.usersite.UserSite;
 import org.blueoxygen.cimande.usersite.UserSiteManager;
@@ -25,27 +27,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class DefaultUserDetailsManager implements UserDetailsService  {
-
-	@Value("${site.login}")
-	private String siteLogin = "";
-
-	@Value("${site.login.select}")
-	private String siteLoginSelect = "";
-
-	@Value("${site.default}")
-	private String siteDefault = "";
-
-	@Value("${site.recorder}")
-	private String siteRecorder = "";
-
+public class DefaultUserDetailsManager implements UserDetailsService, ServletRequestAware  {
 	@Value("${site.virtualhost}")
 	private String siteVirtualHost = "";
 	
 	private UserManager userManager;
 	
+	private HttpServletRequest request;
+	
 	@Inject
-	private UserSiteManager userSiteService;
+	private UserSiteManager userSiteManager;
 	
 	@PostConstruct
 	public void postConstruct() {
@@ -58,14 +49,12 @@ public class DefaultUserDetailsManager implements UserDetailsService  {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-		String userandsite[] = StringUtils.split(username, "@", 2);
-		if (userandsite.length == 2 && StringUtils.isNotBlank(userandsite[1])) {
-			UserSite userSite = userSiteService.findByUserUserameAndSiteName(userandsite[0], userandsite[1]);
+		if("true".equalsIgnoreCase(siteVirtualHost)) {
+			UserSite userSite = userSiteManager.findByUserUserameAndSiteVirtualHost(username, request.getHeader("host"));
 			if (userSite != null)
 				return details(userSite.getUser(), userSite.getSite());
 		} else {
-			User user = userManager.getUserByUsername(userandsite[0]);
+			User user = userManager.getUserByUsername(username);
 			if (user != null)
 				return details(user, null);
 		}
@@ -92,5 +81,10 @@ public class DefaultUserDetailsManager implements UserDetailsService  {
 		}
 		
 		return details;
+	}
+
+	@Override
+	public void setServletRequest(HttpServletRequest request) {
+		this.request = request;
 	}
 }

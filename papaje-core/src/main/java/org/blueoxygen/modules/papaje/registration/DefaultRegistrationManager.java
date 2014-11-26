@@ -3,7 +3,6 @@ package org.blueoxygen.modules.papaje.registration;
 import javax.inject.Inject;
 
 import org.blueoxygen.modules.papaje.employee.Employee;
-import org.blueoxygen.modules.papaje.employee.EmployeeManager;
 import org.blueoxygen.modules.papaje.employee.EmployeeRepository;
 import org.blueoxygen.modules.papaje.employer.Employer;
 import org.blueoxygen.modules.papaje.employer.EmployerRepository;

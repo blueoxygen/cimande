@@ -36,7 +36,7 @@ public class DefaultSiteManager implements SiteManager {
 		
 		if (StringUtils.isBlank(site.getId())) {
 			site.setId(null);
-			site.setPath(path + site.getId());
+			site.setPath(path);
 			return siteRepository.save(site);
 		} else {
 			Site s = siteRepository.findById(site.getId());
@@ -53,6 +53,7 @@ public class DefaultSiteManager implements SiteManager {
 			s.setLevel(site.getLevel());
 			s.setMaster(site.getMaster());
 			s.setPath(path + site.getId());
+			s.setVirtualHost(site.getVirtualHost());
 			
 			return s;
 		}
@@ -92,6 +93,11 @@ public class DefaultSiteManager implements SiteManager {
 		siteRepository.delete(site);
 		
 		return true;
+	}
+
+	@Override
+	public Site findSiteByVirtualHost(String virtualHost) {
+		return siteRepository.findByVirtualHost(virtualHost);
 	}
 
 }

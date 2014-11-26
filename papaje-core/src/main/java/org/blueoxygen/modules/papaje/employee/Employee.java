@@ -5,12 +5,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.blueoxygen.cimande.core.CimandeJpaPersistence;
 import org.blueoxygen.modules.papaje.user.PersonalInfo;
-import org.meruvian.yama.core.DefaultJpaPersistence;
 
 @Entity
 @Table(name = "papaje_employee")
-public class Employee extends DefaultJpaPersistence {
+public class Employee extends CimandeJpaPersistence {
 	private PersonalInfo personalInfo;
 	private String personalPage;
 	private String companyPage;

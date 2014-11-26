@@ -49,6 +49,11 @@ public class DefaultUserSiteManager implements UserSiteManager {
 	}
 
 	@Override
+	public UserSite findByUserUserameAndSiteVirtualHost(String username, String virtualHost) {
+		return userSiteRepository.findByUserUsernameAndSiteVirtualHost(username, virtualHost);
+	}
+
+	@Override
 	public Page<UserSite> findByUser(String username, Pageable pageable) {
 		return userSiteRepository.findByUserUsername(username, pageable);
 	}

@@ -3,11 +3,11 @@ package org.blueoxygen.modules.papaje.language;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.meruvian.yama.core.DefaultJpaPersistence;
+import org.blueoxygen.cimande.core.CimandeJpaPersistence;
 
 @Entity
 @Table(name = "papaje_language")
-public class Language extends DefaultJpaPersistence {
+public class Language extends CimandeJpaPersistence {
 	private String name;
 	private String description;
 	

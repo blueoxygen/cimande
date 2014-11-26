@@ -6,13 +6,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.blueoxygen.cimande.core.CimandeJpaPersistence;
 import org.blueoxygen.cimande.site.Site;
-import org.meruvian.yama.core.DefaultJpaPersistence;
 import org.meruvian.yama.core.role.JpaRole;
 
 @Entity
 @Table(name = "cimande_role_site", uniqueConstraints = { @UniqueConstraint(columnNames = {"role_id", "site_id" }) })
-public class RoleSite extends DefaultJpaPersistence {
+public class RoleSite extends CimandeJpaPersistence {
 	private JpaRole role = new JpaRole();
 	private Site site = new Site();
 

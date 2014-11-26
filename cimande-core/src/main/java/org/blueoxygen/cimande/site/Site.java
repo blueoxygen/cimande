@@ -3,7 +3,6 @@ package org.blueoxygen.cimande.site;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,14 +11,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.meruvian.yama.core.DefaultJpaPersistence;
+import org.blueoxygen.cimande.core.CimandeJpaPersistence;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "cimande_site")
-public class Site extends DefaultJpaPersistence {
+public class Site extends CimandeJpaPersistence {
 	private String name;
 	private String description;
 	private String title;
@@ -138,7 +137,7 @@ public class Site extends DefaultJpaPersistence {
 
 	@JsonIgnore
 	@org.codehaus.jackson.annotate.JsonBackReference
-	@OneToMany(mappedBy = "master", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "master", fetch = FetchType.LAZY)
 	public List<Site> getSites() {
 		return sites;
 	}

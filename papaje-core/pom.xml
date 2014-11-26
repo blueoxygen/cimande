@@ -13,6 +13,11 @@
 			<artifactId>yama-service-web</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.blueoxygen.cimande</groupId>
+			<artifactId>cimande-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>
 		</dependency>

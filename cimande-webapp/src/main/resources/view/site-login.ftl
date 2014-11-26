@@ -75,16 +75,5 @@
 				</div>
 			</div>
 		</div>
-		<content tag="script">
-			<script type="text/javascript">
-				$(function(){
-					$('#loginForm').submit(function(event){
-						if($('#username').val().indexOf("@") == -1)
-							$('#username').val($('#username').val()+'@${sitename!}');
-						return;
-					});
-				});
-			</script>
-		</content>
 	</body>
 </html>

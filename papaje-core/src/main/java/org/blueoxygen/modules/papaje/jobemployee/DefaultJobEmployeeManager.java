@@ -3,6 +3,7 @@ package org.blueoxygen.modules.papaje.jobemployee;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.blueoxygen.cimande.security.SessionCredentials;
 import org.blueoxygen.modules.papaje.employee.Employee;
 import org.blueoxygen.modules.papaje.employee.EmployeeRepository;
 import org.blueoxygen.modules.papaje.job.Job;
@@ -57,18 +58,18 @@ public class DefaultJobEmployeeManager implements JobEmployeeManager {
 
 	@Override
 	public JobEmployee findByJobIdAndEmployeeId(String jobId, String employeeId) {
-		return jobEmployeeRepository.findByJobIdAndEmployeeIdAndLogInformationActiveFlag(jobId, employeeId, LogInformation.ACTIVE);
+		return jobEmployeeRepository.findByJobIdAndEmployeeIdAndLogInformationActiveFlagAndLogInformationSite(
+				jobId, employeeId, LogInformation.ACTIVE, SessionCredentials.getCurrentSite().getId());
 	}
 
 	@Override
 	public Page<Job> findAppliedJobByEmployee(String q, String employeeId, Pageable pageable) {
 		q = StringUtils.defaultIfBlank(q, "");
-		return jobEmployeeRepository.findJobByEmployeeId(q, employeeId, pageable);
-//		return jobEmployeeRepository.findJobByEmployeeId(employeeId, pageable);
+		return jobEmployeeRepository.findJobByEmployeeId(q, employeeId, SessionCredentials.getCurrentSite().getId(), pageable);
 	}
 
 	@Override
 	public Page<Employee> findJobApplierByJobId(String q, String jobId, Pageable pageable) {
-		return jobEmployeeRepository.findEmployeeByJobId(q, jobId, pageable);
+		return jobEmployeeRepository.findEmployeeByJobId(q, jobId, SessionCredentials.getCurrentSite().getId(), pageable);
 	}
 }

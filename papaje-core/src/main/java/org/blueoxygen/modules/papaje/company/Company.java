@@ -8,7 +8,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.meruvian.yama.core.DefaultJpaPersistence;
+import org.blueoxygen.cimande.core.CimandeJpaPersistence;
 import org.meruvian.yama.core.commons.JpaAddress;
 
 /**
@@ -17,7 +17,7 @@ import org.meruvian.yama.core.commons.JpaAddress;
  */
 @Entity
 @Table(name = "papaje_company")
-public class Company extends DefaultJpaPersistence {
+public class Company extends CimandeJpaPersistence {
 	public enum CompanyType {
 		COMPANY, ORGANIZATION
 	}

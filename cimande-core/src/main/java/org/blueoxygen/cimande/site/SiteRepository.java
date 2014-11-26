@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface SiteRepository extends DefaultRepository<Site>{
 	Site findByName(String name);
 	
+	Site findByVirtualHost(String virtualHost);
+	
 	Page<Site> findByNameContainingAndLogInformationActiveFlag(String name, int activeFlag, Pageable pageable);
 }

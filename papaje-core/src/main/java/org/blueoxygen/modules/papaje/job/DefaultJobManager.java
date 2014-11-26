@@ -3,6 +3,7 @@ package org.blueoxygen.modules.papaje.job;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.blueoxygen.cimande.security.SessionCredentials;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ public class DefaultJobManager implements JobManager {
 			j.setRequirement(job.getRequirement());
 			j.setSallary(job.getSallary());
 			j.setType(job.getType());
+			j.setCategory(job.getCategory());
 			
 			return j;
 		}
@@ -61,18 +63,20 @@ public class DefaultJobManager implements JobManager {
 	@Override
 	public Page<Job> findByName(String q, Pageable pageable) {
 		q = StringUtils.defaultIfBlank(q, "");
-		return jobRepository.findByNameContaining(q, pageable);
+		return jobRepository.findByNameContainingAndLogInformationSite(q, SessionCredentials.getCurrentSite().getId(), pageable);
 	}
 
 	@Override
 	public Page<Job> findByName(String q, int status, Pageable pageable) {
 		q = StringUtils.defaultIfBlank(q, "");
-		return jobRepository.findByNameContainingAndLogInformationActiveFlag(q, status, pageable);
+		return jobRepository.findByNameContainingAndLogInformationActiveFlagAndLogInformationSite(
+				q, status, SessionCredentials.getCurrentSite().getId(), pageable);
 	}
 
 	@Override
 	public Page<Job> findByCompanyId(String companyId, Pageable pageable) {
-		return jobRepository.findByCompanyIdContaining(companyId, pageable);
+		return jobRepository.findByCompanyIdContainingAndLogInformationSite(
+				companyId, SessionCredentials.getCurrentSite().getId(), pageable);
 	}
 
 	@Override
@@ -83,5 +87,5 @@ public class DefaultJobManager implements JobManager {
 		
 		return job;
 	}
-	
+
 }

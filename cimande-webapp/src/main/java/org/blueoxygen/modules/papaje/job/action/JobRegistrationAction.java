@@ -24,6 +24,10 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.struts2.interceptor.ServletRequestAware;
+import org.blueoxygen.cimande.site.Site;
+import org.blueoxygen.cimande.site.SiteManager;
+import org.blueoxygen.cimande.usersite.UserSite;
+import org.blueoxygen.cimande.usersite.UserSiteManager;
 import org.blueoxygen.modules.papaje.registration.RegistrationManager;
 import org.meruvian.inca.struts2.rest.ActionResult;
 import org.meruvian.inca.struts2.rest.annotation.Action;
@@ -31,6 +35,7 @@ import org.meruvian.inca.struts2.rest.annotation.Action.HttpMethod;
 import org.meruvian.inca.struts2.rest.annotation.ActionParam;
 import org.meruvian.yama.core.role.DefaultRole;
 import org.meruvian.yama.core.user.DefaultUser;
+import org.meruvian.yama.core.user.JpaUser;
 import org.meruvian.yama.core.user.User;
 import org.meruvian.yama.core.user.UserManager;
 import org.meruvian.yama.web.CredentialsManager;
@@ -52,11 +57,20 @@ public class JobRegistrationAction extends ActionSupport implements ServletReque
 	@Inject
 	private RegistrationManager registrationManager;
 	
+	@Inject
+	private SiteManager siteManager;
+	
+	@Inject 
+	private UserSiteManager userSiteManager;
+	
 	@Value("${recaptcha.active}")
 	private boolean recaptchaActive;
 	
 	@Value("${recaptcha.public.key}")
 	private String recaptchaPublicKey;
+	
+	@Value("${site.virtualhost}")
+	private String siteVirtualHost = "";
 
 	private HttpServletRequest request;
 	
@@ -89,13 +103,19 @@ public class JobRegistrationAction extends ActionSupport implements ServletReque
 		}
 		
 		User u = userManager.saveUser(user);
+		if("true".equalsIgnoreCase(siteVirtualHost)) {
+			UserSite userSite = new UserSite();
+			userSite.setUser(new JpaUser(u));
+			userSite.setSite(siteManager.findSiteByVirtualHost(request.getHeader("host")));
+			userSiteManager.saveUserSite(userSite);
+		}
 		if (StringUtils.isNotBlank(roles)) {
 			DefaultRole role = new DefaultRole();
 			role.setName(roles);
 			userManager.addRoleToUser(u, role);
 		}
 		registrationManager.register(u, roles);
-		credentialsManager.registerAuthentication(u.getId());
+//		credentialsManager.registerAuthentication(u.getId());
 		if("EMPLOYER".equalsIgnoreCase(roles))
 			return new ActionResult("redirect", "/backend/company?registrationSuccess");
 		else

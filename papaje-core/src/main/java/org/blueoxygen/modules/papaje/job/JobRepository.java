@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JobRepository extends DefaultRepository<Job>{
-	Page<Job> findByNameContaining(String companyId, Pageable pageable);
-	Page<Job> findByNameContainingAndLogInformationActiveFlag(String companyId, int status, Pageable pageable);
-	Page<Job> findByCompanyIdContaining(String companyId, Pageable pageable);
+	Page<Job> findByNameContainingAndLogInformationSite(String companyId, String siteId, Pageable pageable);
+	Page<Job> findByNameContainingAndLogInformationActiveFlagAndLogInformationSite(String companyId, int status, String siteId, Pageable pageable);
+	Page<Job> findByCompanyIdContainingAndLogInformationSite(String companyId, String siteId, Pageable pageable);
 }

@@ -33,6 +33,7 @@
 								<li><a href="<@s.url value="/admin/users" />"><i class="fa fa-angle-double-right"></i> User</a></li>
 								<li><a href="<@s.url value="/admin/roles" />"><i class="fa fa-angle-double-right"></i> Role</a></li>
 								<li><a href="<@s.url value="/admin/sites" />"><i class="fa fa-angle-double-right"></i> Site</a></li>
+								<li><a href="<@s.url value="/admin/modulefunctions" />"><i class="fa fa-angle-double-right"></i> Module Function</a></li>
 							</ul>
 						</li>
 						</#if>

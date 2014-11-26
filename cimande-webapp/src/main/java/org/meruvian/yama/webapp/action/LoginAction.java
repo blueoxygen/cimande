@@ -18,10 +18,7 @@ package org.meruvian.yama.webapp.action;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.struts2.interceptor.ServletRequestAware;
 import org.meruvian.inca.struts2.rest.ActionResult;
 import org.meruvian.inca.struts2.rest.annotation.Action;
 import org.meruvian.inca.struts2.rest.annotation.ActionParam;
@@ -38,7 +35,7 @@ import com.opensymphony.xwork2.ActionSupport;
  *
  */
 @Action(name = "/login")
-public class LoginAction extends ActionSupport implements ServletRequestAware {
+public class LoginAction extends ActionSupport {
 	@Inject
 	private SocialManagerLocator managerLocator;
 	
@@ -50,15 +47,10 @@ public class LoginAction extends ActionSupport implements ServletRequestAware {
 	
 	@Value(value="${site.domain}")
 	private String domain;
-	
-	private HttpServletRequest request;
-	
+
 	@Action
 	public ActionResult loginForm() {
-//		if (StringUtils.isNotBlank(siteLogin) && siteLogin.equalsIgnoreCase("true")) {
-			String sitename = StringUtils.removeEnd(request.getHeader("host"), domain);
-			return new ActionResult("freemarker", "/view/site-login.ftl").addToModel("sitename", StringUtils.removeEnd(sitename, "."));
-//		} else return new ActionResult("freemarker", "/view/login.ftl");
+		return new ActionResult("freemarker", "/view/site-login.ftl");
 	}
 	
 	@Action(name = "/social/{social}/auth")
@@ -84,10 +76,5 @@ public class LoginAction extends ActionSupport implements ServletRequestAware {
 		}
 		
 		return new ActionResult("redirect", "/");
-	}
-
-	@Override
-	public void setServletRequest(HttpServletRequest request) {
-		this.request = request;
 	}
 }

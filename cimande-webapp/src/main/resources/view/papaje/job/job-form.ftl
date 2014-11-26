@@ -24,6 +24,18 @@
 							<@s.hidden key="label.backend.job.id" name="job.company.id" readonly="true" />
 							<@s.textfield key="label.backend.job.code" name="job.code" />
 							<@s.textfield key="label.backend.job.name" name="job.name" />
+							
+							<div class="form-group ">
+								<label for="roles"><@s.text name="label.backend.job.category" /></label>
+								<div class="controls">
+									<select name="job.category.id" class="form-control">
+										<#list categories.content as c>
+										<option value="${c.id!""}">${(c.name!"")?upper_case}</option>
+										</#list>
+									</select>
+								</div>
+							</div>
+							
 							<@s.textfield key="label.backend.job.function" name="job.function" />
 							<@s.textfield key="label.backend.job.sallary" name="job.sallary" />
 							<@s.textarea key="label.backend.job.description" name="job.description" />

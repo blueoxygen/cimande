@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.meruvian.yama.core.DefaultJpaPersistence;
+import org.blueoxygen.cimande.core.CimandeJpaPersistence;
 
 /**
  * @author dianw
@@ -19,7 +19,7 @@ import org.meruvian.yama.core.DefaultJpaPersistence;
  */
 @Entity
 @Table(name = "papaje_location")
-public class Location extends DefaultJpaPersistence {
+public class Location extends CimandeJpaPersistence {
 	public enum LocationType {
 		COUNTRY, STATE, CITY, SUBDISTRICT, OTHER
 	}

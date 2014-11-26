@@ -9,7 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
-import org.meruvian.yama.core.DefaultJpaPersistence;
+import org.blueoxygen.cimande.core.CimandeJpaPersistence;
 
 /**
  * @author dianw
@@ -17,7 +17,7 @@ import org.meruvian.yama.core.DefaultJpaPersistence;
  */
 @Entity
 @Table(name = "papaje_education_unit")
-public class EducationUnit extends DefaultJpaPersistence {
+public class EducationUnit extends CimandeJpaPersistence {
 	public enum EducationUnitType {
 		UNIVERSITY, HIGH_SCHOOL, OTHER
 	}

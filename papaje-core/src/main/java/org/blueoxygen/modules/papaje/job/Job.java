@@ -7,19 +7,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.blueoxygen.cimande.core.CimandeJpaPersistence;
+import org.blueoxygen.modules.papaje.category.Category;
 import org.blueoxygen.modules.papaje.company.Company;
-import org.meruvian.yama.core.DefaultJpaPersistence;
 import org.meruvian.yama.core.commons.JpaAddress;
 
 @Entity
 @Table(name = "papaje_job")
-public class Job extends DefaultJpaPersistence {
+public class Job extends CimandeJpaPersistence {
 	private String name;
 	private String description;
 	private String requirement;
 	private String personalSpec;
 	private String notes;
 	private Company company;
+	private Category category;
 	private String type;
 	private int experienceLevel;
 	private String function;
@@ -67,6 +69,16 @@ public class Job extends DefaultJpaPersistence {
 	
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	@ManyToOne

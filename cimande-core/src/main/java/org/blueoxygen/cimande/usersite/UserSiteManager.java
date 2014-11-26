@@ -12,8 +12,10 @@ public interface UserSiteManager {
 	UserSite findById(String userSiteId);
 	
 	UserSite findByUserIdAndSiteId(String userId, String siteId);
-	
+
 	UserSite findByUserUserameAndSiteName(String username, String sitename);
+	
+	UserSite findByUserUserameAndSiteVirtualHost(String username, String virtualHost);
 	
 	Page<UserSite> findByUser(String userId, Pageable pageable);
 }
