@@ -26,6 +26,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.blueoxygen.cimande.security.SessionCredentials;
 import org.meruvian.inca.struts2.rest.ActionResult;
 import org.meruvian.inca.struts2.rest.annotation.Action;
 import org.meruvian.inca.struts2.rest.annotation.Action.HttpMethod;
@@ -40,7 +41,6 @@ import org.meruvian.yama.core.user.DefaultUser;
 import org.meruvian.yama.core.user.User;
 import org.meruvian.yama.core.user.UserManager;
 import org.meruvian.yama.web.CredentialsManager;
-import org.meruvian.yama.web.SessionCredentials;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -119,6 +119,7 @@ public class ProfileAction extends ActionSupport {
 	})
 	public String getPhoto() throws IOException {
 		User u = SessionCredentials.getCurrentUser();
+		u = userManager.findUser(u);
 		FileInfo fileInfo = u.getFileInfo();
 		if (fileInfo == null || StringUtils.isBlank(fileInfo.getId())) {
 			return "no-profile";

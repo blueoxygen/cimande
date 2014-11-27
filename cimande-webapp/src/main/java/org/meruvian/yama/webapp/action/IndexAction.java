@@ -15,26 +15,15 @@
  */
 package org.meruvian.yama.webapp.action;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.struts2.interceptor.ServletRequestAware;
-import org.blueoxygen.cimande.security.SessionCredentials;
 import org.meruvian.inca.struts2.rest.ActionResult;
 import org.meruvian.inca.struts2.rest.annotation.Action;
-import org.springframework.beans.factory.annotation.Value;
-
-import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * @author Dian Aditya
  *
  */
 @Action
-public class IndexAction extends ActionSupport implements ServletRequestAware {
-	@Value(value="${site.domain}")
-	private String domain;
-	private HttpServletRequest request;
+public class IndexAction {
 	
 	@Action
 	public ActionResult index() {
@@ -44,10 +33,5 @@ public class IndexAction extends ActionSupport implements ServletRequestAware {
 //		else if(SessionCredentials.getCurrentUser() != null)
 			return new ActionResult("chain", "/dashboard");
 //		else return new ActionResult("chain", "/landing");
-	}
-
-	@Override
-	public void setServletRequest(HttpServletRequest request) {
-		this.request = request;
 	}
 }

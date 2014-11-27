@@ -1,5 +1,6 @@
 package org.blueoxygen.cimande.site;
 
+import org.meruvian.yama.core.commons.FileInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,6 +15,8 @@ public interface SiteManager {
 	Site findSiteByVirtualHost(String virtualHost);
 	
 	Site updateStatus(Site site, int status);
+	
+	FileInfo setSiteLogo(Site site, FileInfo fileInfo);
 	
 	boolean removeSite(Site site);
 

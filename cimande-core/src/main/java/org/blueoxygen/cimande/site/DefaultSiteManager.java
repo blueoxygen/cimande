@@ -4,6 +4,9 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.meruvian.yama.core.LogInformation;
+import org.meruvian.yama.core.commons.FileInfo;
+import org.meruvian.yama.core.commons.JpaFileInfo;
+import org.meruvian.yama.core.commons.JpaFileInfoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,9 @@ public class DefaultSiteManager implements SiteManager {
 
 	@Inject
 	private SiteRepository siteRepository;
+	
+	@Inject
+	private JpaFileInfoRepository jpaFileInfoRepository;
 
 	@Override
 	@Transactional
@@ -98,6 +104,19 @@ public class DefaultSiteManager implements SiteManager {
 	@Override
 	public Site findSiteByVirtualHost(String virtualHost) {
 		return siteRepository.findByVirtualHost(virtualHost);
+	}
+
+	@Override
+	@Transactional
+	public FileInfo setSiteLogo(Site site, FileInfo fileInfo) {
+		site = findSiteById(site.getId());
+		
+		JpaFileInfo file = new JpaFileInfo(fileInfo);
+		file = jpaFileInfoRepository.findById(file.getId());
+		
+		site.setFileInfo(file);
+		
+		return file;
 	}
 
 }

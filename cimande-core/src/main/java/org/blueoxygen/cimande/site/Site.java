@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.blueoxygen.cimande.core.CimandeJpaPersistence;
+import org.meruvian.yama.core.commons.JpaFileInfo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,6 +35,7 @@ public class Site extends CimandeJpaPersistence {
 	private String virtualHost;
 	private String path;
 	private int level = 0;
+	private JpaFileInfo fileInfo;
 
 	@Column(unique = true)
 	public String getName() {
@@ -146,7 +148,7 @@ public class Site extends CimandeJpaPersistence {
 		this.sites = sites;
 	}
 
-	@Column(unique = true)
+	@Column(name = "virtual_host", unique = true)
 	public String getVirtualHost() {
 		return virtualHost;
 	}
@@ -169,6 +171,17 @@ public class Site extends CimandeJpaPersistence {
 	
 	public void setLevel(int level) {
 		this.level = level;
+	}
+
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "file_info_id")
+	public JpaFileInfo getFileInfo() {
+		return fileInfo;
+	}
+
+	public void setFileInfo(JpaFileInfo fileInfo) {
+		this.fileInfo = fileInfo;
 	}
 	
 }
