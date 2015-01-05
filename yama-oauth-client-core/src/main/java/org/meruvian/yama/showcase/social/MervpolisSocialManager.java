@@ -15,7 +15,14 @@
  */
 package org.meruvian.yama.showcase.social;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.blueoxygen.cimande.site.Site;
+import org.blueoxygen.cimande.site.SiteManager;
 import org.meruvian.yama.core.LogInformation;
 import org.meruvian.yama.core.commons.Address;
 import org.meruvian.yama.core.commons.DefaultFileInfo;
@@ -31,7 +38,24 @@ import org.springframework.social.connect.support.OAuth2ConnectionFactory;
  * @author Dian Aditya
  *
  */
-public class MervpolisSocialManager extends AbstractSocialManager<Mervpolis> {
+public class MervpolisSocialManager extends AbstractSocialManager<Mervpolis> implements ServletRequestAware {
+	
+	@Inject
+	private SiteManager siteManager;
+	
+	private HttpServletRequest request;
+
+	@Override
+	public void setServletRequest(HttpServletRequest request) {
+		this.request = request;
+	}
+	
+	@PostConstruct
+	public void postConstruct() {
+		Site site = siteManager.findSiteByVirtualHost(request.getHeader("host"));
+		this.redirectUri = site.getSocialConfiguration().getRedirectUri();
+		this.scope = site.getSocialConfiguration().getScope();
+	}
 
 	public MervpolisSocialManager(OAuth2ConnectionFactory<Mervpolis> connectionFactory) {
 		super(connectionFactory);
@@ -66,6 +90,16 @@ public class MervpolisSocialManager extends AbstractSocialManager<Mervpolis> {
 		Mervpolis mervpolis = (Mervpolis) connection.getApi();
 		
 		return mervpolis.isAuthorized();
+	}
+	
+	@Override
+	public void setRedirectUri(String redirectUri) {
+		this.redirectUri = redirectUri;
+	}
+
+	@Override
+	public void setScope(String scope) {
+		this.scope = scope;
 	}
 
 }

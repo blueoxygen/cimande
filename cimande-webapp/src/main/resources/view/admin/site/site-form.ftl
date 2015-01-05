@@ -13,20 +13,47 @@
 		<@s.actionmessage theme="bootstrap"/>
 		<div class="row">
 			<div class="col-md-8">
-				<div class="box box-primary">
-					<div class="box-header">
-						<h3 class="box-title"><@s.text name="label.admin.site.title" /></h3>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="box box-primary">
+							<div class="box-header">
+								<h3 class="box-title"><@s.text name="label.admin.site.title" /></h3>
+							</div>
+							
+							<div class="box-body">
+								<@s.form theme="bootstrap">
+									<@s.hidden key="label.admin.site.id" name="site.id" readonly="true" />
+									<@s.textfield key="label.admin.site.name" name="site.name" />
+									<@s.textfield key="label.admin.site.description" name="site.description" />
+									<@s.textfield key="label.admin.site.virtualhost" name="site.virtualHost" />
+									
+									<@s.submit cssClass="btn btn-primary col-md-3" value="%{getText('button.main.save')}" />
+								</@s.form>
+							</div>
+						</div>
 					</div>
 					
-					<div class="box-body">
-						<@s.form theme="bootstrap">
-							<@s.hidden key="label.admin.site.id" name="site.id" readonly="true" />
-							<@s.textfield key="label.admin.site.name" name="site.name" />
-							<@s.textfield key="label.admin.site.description" name="site.description" />
-							<@s.textfield key="label.admin.site.virtualhost" name="site.virtualHost" />
+					<div class="col-md-12">
+						<div class="box box-primary">
+							<div class="box-header">
+								<h3 class="box-title"><@s.text name="label.admin.site.socialconfig.title" /></h3>
+							</div>
 							
-							<@s.submit cssClass="btn btn-primary col-md-3" value="%{getText('button.main.save')}" />
-						</@s.form>
+							<div class="box-body">
+								<@s.form theme="bootstrap">
+									<@s.hidden name="site.id" />
+									<@s.hidden key="label.admin.site.socialConfiguration.id" name="site.socialConfiguration.id" readonly="true" />
+									<@s.textfield key="label.admin.site.socialconfig.appid" name="site.socialConfiguration.appId" />
+									<@s.textfield key="label.admin.site.socialconfig.appsecret" name="site.socialConfiguration.appSecret" />
+									<@s.textfield key="label.admin.site.socialconfig.redirecturi" name="site.socialConfiguration.redirectUri" />
+									<@s.textfield key="label.admin.site.socialconfig.scope" name="site.socialConfiguration.scope" />
+									<@s.textfield key="label.admin.site.socialconfig.state" name="site.socialConfiguration.state" />
+									<@s.checkbox key="label.admin.site.socialconfig.active" name="site.socialConfiguration.active" />
+									<@s.hidden name="edit" value="config" />
+									<@s.submit cssClass="btn btn-primary col-md-3" value="%{getText('button.main.save')}" />
+								</@s.form>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -72,5 +99,6 @@
 				</#if>
 			</div>
 		</div>
+		
 	</body>
 </html>

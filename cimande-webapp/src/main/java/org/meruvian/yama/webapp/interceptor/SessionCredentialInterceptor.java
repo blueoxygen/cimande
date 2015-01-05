@@ -18,7 +18,7 @@ package org.meruvian.yama.webapp.interceptor;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.meruvian.yama.web.SessionCredentials;
+import org.blueoxygen.cimande.security.SessionCredentials;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.opensymphony.xwork2.ActionInvocation;
@@ -42,16 +42,19 @@ public class SessionCredentialInterceptor extends AbstractInterceptor {
 		ValueStack stack = invocation.getStack();
 		stack.set("currentUser", SessionCredentials.getCurrentUser());
 		stack.set("adminRole", adminRole);
+		stack.set("currentSite", SessionCredentials.getCurrentSite());
 
 		List<String> roles = SessionCredentials.getAuthorities();
 		boolean isAdmin = roles.contains(StringUtils.upperCase(adminRole));
 		boolean isEmployer = roles.contains("EMPLOYER");
 		boolean isEmployee = roles.contains("EMPLOYEE");
+		boolean isSiteManager = roles.contains("SMANAGER");
 
 		stack.set("currentRoles", roles);
 		stack.set("isAdmin", isAdmin);
 		stack.set("isEmployer", isEmployer);
 		stack.set("isEmployee", isEmployee);
+		stack.set("isSiteManager", isSiteManager);
 		
 		return invocation.invoke();
 	}

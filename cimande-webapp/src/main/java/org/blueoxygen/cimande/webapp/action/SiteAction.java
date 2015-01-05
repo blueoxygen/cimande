@@ -10,20 +10,20 @@ import javax.imageio.ImageIO;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.blueoxygen.cimande.security.SessionCredentials;
 import org.blueoxygen.cimande.site.Site;
 import org.blueoxygen.cimande.site.SiteManager;
+import org.blueoxygen.cimande.social.SocialConfiguration;
+import org.blueoxygen.cimande.social.SocialConfigurationManager;
 import org.meruvian.inca.struts2.rest.ActionResult;
 import org.meruvian.inca.struts2.rest.annotation.Action;
+import org.meruvian.inca.struts2.rest.annotation.Action.HttpMethod;
+import org.meruvian.inca.struts2.rest.annotation.ActionParam;
 import org.meruvian.inca.struts2.rest.annotation.Param;
 import org.meruvian.inca.struts2.rest.annotation.Result;
 import org.meruvian.inca.struts2.rest.annotation.Results;
-import org.meruvian.inca.struts2.rest.annotation.Action.HttpMethod;
-import org.meruvian.inca.struts2.rest.annotation.ActionParam;
 import org.meruvian.yama.core.commons.DefaultFileInfo;
 import org.meruvian.yama.core.commons.FileInfo;
 import org.meruvian.yama.core.commons.FileInfoManager;
-import org.meruvian.yama.core.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -36,6 +36,9 @@ public class SiteAction extends ActionSupport {
 	
 	@Inject
 	private FileInfoManager fileInfoManager;
+	
+	@Inject
+	private SocialConfigurationManager socialConfigurationManager;
 	
 	private InputStream picture;
 
@@ -82,6 +85,20 @@ public class SiteAction extends ActionSupport {
 				FileInfo f = fileInfoManager.saveFileInfo(fileInfo);
 				siteManager.setSiteLogo(site, f);
 				site = siteManager.findSiteById(site.getId());
+			}
+		} else if (StringUtils.equalsIgnoreCase(edit, "config")) {
+			if(StringUtils.isNotBlank(site.getId())) {
+				validateSocialConfig(site.getSocialConfiguration());
+				
+				System.out.println("CONFIG");
+				
+				if (hasFieldErrors())
+					return new ActionResult("freemarker", "/view/admin/site/site-form.ftl");
+				
+				SocialConfiguration sc = socialConfigurationManager.saveSocialConfig(site.getSocialConfiguration());
+				siteManager.setSocialConfig(site, sc);
+				site = siteManager.findSiteById(site.getId());
+				System.out.println("CONFIG");
 			}
 		} else {
 			validateSite(site);
@@ -144,6 +161,12 @@ public class SiteAction extends ActionSupport {
 	private void validateSite(Site site) {
 		if (StringUtils.isBlank(site.getName())) {
 			addFieldError("site.name", getText("message.site.name.notempty"));
+		}
+	}
+	
+	private void validateSocialConfig(SocialConfiguration socialConfig) {
+		if (StringUtils.isBlank(socialConfig.getAppId())) {
+			addFieldError("site.socialConfig.appId", getText("message.site.socialconfig.appid.notempty"));
 		}
 	}
 }

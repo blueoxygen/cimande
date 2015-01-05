@@ -24,7 +24,6 @@
 	<sc:http use-expressions="true">
 		<sc:intercept-url pattern="/profile" access="isFullyAuthenticated()" />
 		<sc:intercept-url pattern="/profile/**" access="isFullyAuthenticated()" />
-		<sc:intercept-url pattern="/" access="isFullyAuthenticated()" />
 		<sc:intercept-url pattern="/applications" access="isFullyAuthenticated()" />
 		<sc:intercept-url pattern="/applications/**" access="isFullyAuthenticated()" />
 		<sc:intercept-url pattern="/admin" access="hasRole('ADMINISTRATOR')" />

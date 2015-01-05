@@ -1,7 +1,7 @@
 		<header class="header">
 			<a href="<@s.url value="/" />" class="logo">
 				<!-- Add the class icon to your logo image or logo icon to add the margining -->
-				<@s.text name="page.main.header" />
+				<#if currentSite??>${currentSite.name!}</#if>
 			</a>
 			<!-- Header Navbar: style can be found in header.less -->
 			<nav class="navbar navbar-static-top" role="navigation">

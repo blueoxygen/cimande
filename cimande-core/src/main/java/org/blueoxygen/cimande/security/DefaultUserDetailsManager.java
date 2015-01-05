@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.blueoxygen.cimande.site.Site;
+import org.blueoxygen.cimande.site.SiteManager;
 import org.blueoxygen.cimande.usersite.UserSite;
 import org.blueoxygen.cimande.usersite.UserSiteManager;
 import org.meruvian.yama.core.LogInformation;
@@ -30,10 +31,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class DefaultUserDetailsManager implements UserDetailsService, ServletRequestAware  {
 	@Value("${site.virtualhost}")
 	private String siteVirtualHost = "";
+	@Value("${role.default}")
+	private String defaultRole = "";
 	
 	private UserManager userManager;
 	
 	private HttpServletRequest request;
+	
+	@Inject
+	private SiteManager siteManager;
 	
 	@Inject
 	private UserSiteManager userSiteManager;
@@ -51,8 +57,20 @@ public class DefaultUserDetailsManager implements UserDetailsService, ServletReq
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		if("true".equalsIgnoreCase(siteVirtualHost)) {
 			UserSite userSite = userSiteManager.findByUserUserameAndSiteVirtualHost(username, request.getHeader("host"));
-			if (userSite != null)
+			if (userSite != null) {
 				return details(userSite.getUser(), userSite.getSite());
+			} else if (StringUtils.isNotBlank(defaultRole)) {
+				User user = userManager.getUserByUsername(username);
+				Site site = siteManager.findSiteByVirtualHost(request.getHeader("host"));
+				boolean isDefaultRole = false;
+				Page<? extends UserRole> userRoles = userManager.findRoleByUser(user, null);
+				for (UserRole userRole : userRoles) {
+					if (defaultRole.equalsIgnoreCase(userRole.getRole().getName()))
+						isDefaultRole = true;
+				}
+				if (user != null && site != null && isDefaultRole)
+					return details(user, site);
+			}	
 		} else {
 			User user = userManager.getUserByUsername(username);
 			if (user != null)

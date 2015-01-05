@@ -9,7 +9,12 @@
 	<artifactId>yama-oauth-client-core</artifactId>
 	<packaging>jar</packaging>
 
-	<dependencies>
+	<dependencies>		
+		<dependency>
+			<groupId>org.blueoxygen.cimande</groupId>
+			<artifactId>cimande-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- Yama Services -->
 		<dependency>
 			<groupId>org.meruvian.yama</groupId>

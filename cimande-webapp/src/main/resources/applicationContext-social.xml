@@ -10,29 +10,13 @@
 		http://www.springframework.org/schema/social/google http://www.springframework.org/schema/social/spring-social-google.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
-	<bean id="facebookConnectionFactory" class="org.springframework.social.facebook.connect.FacebookConnectionFactory">
-		<constructor-arg value="${social.facebook.appId}" />
-		<constructor-arg value="${social.facebook.appSecret}" />
-	</bean>
-	
-	<bean id="googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
-		<constructor-arg value="${social.google.appId}" />
-		<constructor-arg value="${social.google.appSecret}" />
-	</bean>
-	
-	<bean id="mervpolisConnectionFactory" class="org.meruvian.yama.showcase.social.connect.MervpolisConnectionFactory">
-		<constructor-arg value="${social.yama.appId}" />
-		<constructor-arg value="${social.yama.appSecret}" />
-	</bean>
-	
-	<bean id="connectionFactoryLocator" class="org.springframework.social.connect.support.ConnectionFactoryRegistry">
+	<bean id="connectionFactoryLocator" class="org.springframework.social.connect.support.ConnectionFactoryRegistry" scope="request">
 		<property name="connectionFactories">
 			<array>
-				<ref bean="facebookConnectionFactory" />
-				<ref bean="googleConnectionFactory" />
 				<ref bean="mervpolisConnectionFactory" />
 			</array>
 		</property>
+		<aop:scoped-proxy/>
 	</bean>
 	
 	<bean id="connectionSignUp" class="org.meruvian.yama.social.core.SocialConnectionSignUp" autowire="byType" />
@@ -40,14 +24,9 @@
 	<bean id="socialManagerLocator" class="org.meruvian.yama.social.core.SocialManagerRegistry">
 		<property name="socialManagers">
 			<array>
-				<bean class="org.meruvian.yama.social.facebook.FacebookSocialManager" p:redirectUri="${social.facebook.redirectUri}" p:scope="${social.facebook.scope}" autowire="byType">
-					<constructor-arg ref="facebookConnectionFactory" />
-				</bean>
-				<bean class="org.meruvian.yama.social.google.GoogleSocialManager" p:redirectUri="${social.google.redirectUri}" p:scope="${social.google.scope}" autowire="byType">
-					<constructor-arg ref="googleConnectionFactory" />
-				</bean>
-				<bean class="org.meruvian.yama.showcase.social.MervpolisSocialManager" p:redirectUri="${social.yama.redirectUri}" p:scope="${social.yama.scope}" autowire="byType">
+				<bean class="org.meruvian.yama.showcase.social.MervpolisSocialManager" autowire="byType" scope="request">
 					<constructor-arg ref="mervpolisConnectionFactory" />
+					<aop:scoped-proxy/>
 				</bean>
 			</array>
 		</property>

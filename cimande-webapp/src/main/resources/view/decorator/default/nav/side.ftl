@@ -44,6 +44,9 @@
 								<i class="fa fa-angle-left pull-right"></i>
 							</a>
 							<ul class="treeview-menu">
+								<#if isSiteManager>
+									<li><a href="<@s.url value="/backend/jobs/manager" />"><i class="fa fa-angle-double-right"></i> Jobs</a></li>
+								</#if>
 								<#if isEmployer>
 									<li><a href="<@s.url value="/backend/company" />"><i class="fa fa-angle-double-right"></i> Company</a></li>
 									<li><a href="<@s.url value="/backend/jobs" />"><i class="fa fa-angle-double-right"></i> Jobs</a></li>
@@ -54,12 +57,12 @@
 								</#if>
 							</ul>
 						</li>
-						<li>
+						<#-- <li>
 							<a href="<@s.url value="/applications" />">
 								<i class="fa fa-cube"></i> 
 								<span><@s.text name="menu.main.application" /></span>
 							</a>
-						</li>
+						</li> -->
 					</ul>
 				</section>
 				<!-- /.sidebar -->

@@ -9,9 +9,11 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.blueoxygen.cimande.core.CimandeJpaPersistence;
+import org.blueoxygen.cimande.social.SocialConfiguration;
 import org.meruvian.yama.core.commons.JpaFileInfo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -36,6 +38,7 @@ public class Site extends CimandeJpaPersistence {
 	private String path;
 	private int level = 0;
 	private JpaFileInfo fileInfo;
+	private SocialConfiguration socialConfiguration;
 
 	@Column(unique = true)
 	public String getName() {
@@ -183,5 +186,15 @@ public class Site extends CimandeJpaPersistence {
 	public void setFileInfo(JpaFileInfo fileInfo) {
 		this.fileInfo = fileInfo;
 	}
-	
+
+	@JsonIgnore
+	@OneToOne
+	@JoinColumn(name = "social_config_id")
+	public SocialConfiguration getSocialConfiguration() {
+		return socialConfiguration;
+	}
+
+	public void setSocialConfiguration(SocialConfiguration socialConfiguration) {
+		this.socialConfiguration = socialConfiguration;
+	}
 }

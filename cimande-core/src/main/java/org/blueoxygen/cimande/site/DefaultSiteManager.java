@@ -3,6 +3,8 @@ package org.blueoxygen.cimande.site;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.blueoxygen.cimande.social.SocialConfiguration;
+import org.blueoxygen.cimande.social.SocialConfigurationRepository;
 import org.meruvian.yama.core.LogInformation;
 import org.meruvian.yama.core.commons.FileInfo;
 import org.meruvian.yama.core.commons.JpaFileInfo;
@@ -21,6 +23,9 @@ public class DefaultSiteManager implements SiteManager {
 	
 	@Inject
 	private JpaFileInfoRepository jpaFileInfoRepository;
+	
+	@Inject
+	private SocialConfigurationRepository socialConfigRepository;
 
 	@Override
 	@Transactional
@@ -117,6 +122,17 @@ public class DefaultSiteManager implements SiteManager {
 		site.setFileInfo(file);
 		
 		return file;
+	}
+
+	@Override
+	@Transactional
+	public SocialConfiguration setSocialConfig(Site site, SocialConfiguration socialConfig) {
+		site = findSiteById(site.getId());
+		socialConfig = socialConfigRepository.findById(socialConfig.getId());
+		
+		site.setSocialConfiguration(socialConfig);
+		
+		return socialConfig;
 	}
 
 }

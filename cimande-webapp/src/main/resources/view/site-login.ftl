@@ -10,7 +10,7 @@
 				<div class="row">
 					<div class="form-box" id="login-box">
 						<div class="header bg-gray">
-							<img src="<@s.url value="/images/flat_meruvian_200px.png" />" />
+							<img src="<@s.url value="/job/logo" />" />
 						</div>
 						<div class="col-md-12 bg-gray">
 							<@s.form id="loginForm" action="${request.contextPath}${request.servletPath}/do" method="post" theme="bootstrap">
@@ -25,13 +25,13 @@
 						                        <img class="fa fa-stack-1x fa-inverse" style="width: 1.96em; height: 1.96em;" src="<@s.url value="/images/midas_96px.png" />"/>
 						                    </span>
 										</a>
-										<a href="<@s.url value="/login/social/facebook/auth" />">
+										<a href="<@s.url value="/login/social/mervpolis/auth?social=facebook" />">
 											<span class="fa-stack fa-3x">
 						                        <i class="fa fa-circle fa-stack-2x"></i>
 						                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
 						                    </span>
 										</a>
-										<a href="<@s.url value="/login/social/google/auth" />">
+										<a href="<@s.url value="/login/social/mervpolis/auth?social=google" />">
 											<span class="fa-stack fa-3x">
 						                        <i class="fa fa-circle fa-stack-2x" style="color : #f56954"></i>
 						                        <i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
