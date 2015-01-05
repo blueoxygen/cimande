@@ -22,6 +22,7 @@
 	</bean>
 
 	<sc:http use-expressions="true">
+		<sc:intercept-url pattern="/" access="isFullyAuthenticated()" />
 		<sc:intercept-url pattern="/dashboard" access="isFullyAuthenticated()" />
 		<sc:intercept-url pattern="/profile" access="isFullyAuthenticated()" />
 		<sc:intercept-url pattern="/profile/**" access="isFullyAuthenticated()" />
