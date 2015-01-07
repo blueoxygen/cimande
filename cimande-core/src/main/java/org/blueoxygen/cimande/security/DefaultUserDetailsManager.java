@@ -31,6 +31,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class DefaultUserDetailsManager implements UserDetailsService, ServletRequestAware  {
 	@Value("${site.virtualhost}")
 	private String siteVirtualHost = "";
+	@Value("${site.login}")
+	private String siteLogin = "";
 	@Value("${role.default}")
 	private String defaultRole = "";
 	
@@ -55,13 +57,30 @@ public class DefaultUserDetailsManager implements UserDetailsService, ServletReq
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		if("true".equalsIgnoreCase(siteVirtualHost)) {
-			UserSite userSite = userSiteManager.findByUserUserameAndSiteVirtualHost(username, request.getHeader("host"));
+		if("true".equalsIgnoreCase(siteLogin)) {
+			UserSite userSite = null;
+			User user = null;
+			Site site = null;
+			if("true".equalsIgnoreCase(siteVirtualHost)) {
+				/** Login Using Site VirtualHost **/
+				userSite = userSiteManager.findByUserUserameAndSiteVirtualHost(username, request.getHeader("host"));
+				if (StringUtils.isNotBlank(defaultRole))
+					user = userManager.getUserByUsername(username);
+					site = siteManager.findSiteByVirtualHost(request.getHeader("host"));
+			} else {
+				/** Login Using Site (user@site) **/
+				String usersite[] = new String[2];
+				usersite = username.split("@");
+				userSite = userSiteManager.findByUserUserameAndSiteName(usersite[0], usersite[1]);
+				if (StringUtils.isNotBlank(defaultRole))
+					user = userManager.getUserByUsername(usersite[0]);
+					site = siteManager.findSiteByVirtualHost(usersite[1]);
+			}
+			
 			if (userSite != null) {
 				return details(userSite.getUser(), userSite.getSite());
 			} else if (StringUtils.isNotBlank(defaultRole)) {
-				User user = userManager.getUserByUsername(username);
-				Site site = siteManager.findSiteByVirtualHost(request.getHeader("host"));
+				/** Login Social: comparing user social role with defaultRole **/
 				boolean isDefaultRole = false;
 				Page<? extends UserRole> userRoles = userManager.findRoleByUser(user, null);
 				for (UserRole userRole : userRoles) {
@@ -70,7 +89,7 @@ public class DefaultUserDetailsManager implements UserDetailsService, ServletReq
 				}
 				if (user != null && site != null && isDefaultRole)
 					return details(user, site);
-			}	
+			}
 		} else {
 			User user = userManager.getUserByUsername(username);
 			if (user != null)
