@@ -11,6 +11,27 @@
 	
 	<util:properties id="yamaProperties" location="classpath:/yama.properties" />
 	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	    <property name="host" value="${email.host}"/>
+	    <property name="port" value="${email.port}"/>
+	    <property name="username" value=""/>
+	    <property name="password" value=""/>
+	    
+	    <property name="javaMailProperties">
+	   		<props>
+            	<prop key="mail.transport.protocol">${email.smtp.protocol}</prop>
+       	      	<prop key="mail.smtp.starttls.enable">${email.smtp.starttls.enable}</prop>
+             	<prop key="mail.debug">true</prop>
+       	   </props>
+		</property>
+	</bean>
+	
+	<bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+	    <property name="from" value="${email.username}"/>
+	    <property name="subject" value="Subject"/>
+	</bean>
+	
+	
 	<bean id="reCaptcha" class="net.tanesha.recaptcha.ReCaptchaImpl"
 		p:privateKey="${recaptcha.private.key}" p:publicKey="${recaptcha.public.key}" />
 	
