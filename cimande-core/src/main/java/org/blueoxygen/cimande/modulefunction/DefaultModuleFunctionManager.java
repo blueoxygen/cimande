@@ -70,8 +70,8 @@ public class DefaultModuleFunctionManager implements ModuleFunctionManager {
 	}
 
 	@Override
-	public Page<ModuleFunction> findModuleFunctionByKeyword(String keyword,
-			Pageable pageable) {
+	public Page<ModuleFunction> findModuleFunctionByKeyword(String keyword, Pageable pageable) {
+		keyword = StringUtils.defaultString(keyword, "");
 		return moduleFunctionRepository.findModuleFunctions(keyword, keyword, keyword, LogInformation.ACTIVE, pageable);
 	}
 

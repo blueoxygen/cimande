@@ -8,12 +8,25 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ModuleFunctionRepository extends DefaultRepository<ModuleFunction> {
-	@Query("SELECT m FROM ModuleFunction m WHERE m.name LIKE %?1% AND m.description LIKE %?2% AND m.moduleUrl LIKE %?3% AND m.logInformation.activeFlag = ?4")
+	@Query("SELECT m FROM ModuleFunction m WHERE m.name LIKE %?1% AND m.description LIKE %?2% "
+			+ "AND m.moduleUrl LIKE %?3% AND m.logInformation.activeFlag = ?4")
 	Page<ModuleFunction> findModuleFunctions(String n, String d, String m, int status, Pageable pageable);
 	
-	@Query("SELECT m FROM ModuleFunction m WHERE m.name LIKE %?1% AND m.description LIKE %?2% AND m.master.id = ?3 AND m.logInformation.activeFlag = ?4")
-	Page<ModuleFunction> findChildModuleFunctions(String n, String d, String moduleFunctionId, int status, Pageable pageable);
+	@Query("SELECT m FROM ModuleFunction m WHERE m.name LIKE %?1% AND m.description LIKE %?2% "
+			+ "AND m.master.id = ?3 AND m.logInformation.activeFlag = ?4")
+	Page<ModuleFunction> findChildModuleFunctions(String n, String d, String moduleFunctionId, 
+			int status, Pageable pageable);
 	
-	@Query("SELECT m FROM ModuleFunction m WHERE m.name LIKE %?1% AND m.description LIKE %?2% AND m.treePath NOT LIKE ?3 AND m.logInformation.activeFlag = ?4")
-	Page<ModuleFunction> findMasterModuleFunctions(String n, String d, String moduleFunctionId, int status, Pageable pageable);
+	@Query("SELECT m FROM ModuleFunction m WHERE m.name LIKE %?1% AND m.description LIKE %?2% "
+			+ "AND m.treePath NOT LIKE ?3 AND m.logInformation.activeFlag = ?4")
+	Page<ModuleFunction> findMasterModuleFunctions(String n, String d, String moduleFunctionId, 
+			int status, Pageable pageable);
+	
+	@Query("SELECT m FROM ModuleFunction m "
+			+ " WHERE (m.name LIKE %?1% OR m.description LIKE %?2%) "
+			+ " AND m.master IS NULL "
+			+ " AND m.id NOT IN (SELECT moduleFunction.id FROM RolePrivilege WHERE role.id = ?3 AND logInformation.activeFlag = ?4) "
+			+ " AND m.logInformation.activeFlag = ?5 ")
+	Page<ModuleFunction> findByRolePrivilege(String n, String d, String roleId, int stat, 
+			int status, Pageable pageable);
 }
