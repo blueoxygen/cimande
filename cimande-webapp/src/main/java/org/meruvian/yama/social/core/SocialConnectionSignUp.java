@@ -1,11 +1,9 @@
 package org.meruvian.yama.social.core;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.blueoxygen.modules.papaje.registration.RegistrationManager;
 import org.meruvian.yama.core.role.DefaultRole;
 import org.meruvian.yama.core.user.User;
 import org.meruvian.yama.core.user.UserManager;
@@ -22,8 +20,6 @@ public class SocialConnectionSignUp implements ConnectionSignUp {
 	private UserManager userManager;
 	@Value("${role.default}")
 	private String defaultRole = "";
-	@Inject
-	private RegistrationManager registrationManager;
 	
 	public void setSocialManagerLocator(SocialManagerLocator socialManagerLocator) {
 		this.socialManagerLocator = socialManagerLocator;
@@ -54,7 +50,6 @@ public class SocialConnectionSignUp implements ConnectionSignUp {
 				role.setName(defaultRole);
 				
 				userManager.addRoleToUser(createdUser, role);
-				registrationManager.register(createdUser, defaultRole);
 			}
 		}
 		

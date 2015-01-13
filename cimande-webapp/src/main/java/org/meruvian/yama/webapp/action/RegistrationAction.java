@@ -40,7 +40,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author Dian Aditya
  *
  */
-//@Action(name = "/register")
+@Action(name = "/register")
 public class RegistrationAction extends ActionSupport implements ServletRequestAware {
 	@Inject
 	private UserManager userManager;
