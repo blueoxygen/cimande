@@ -60,6 +60,8 @@
 											</#if>
 											&nbsp;&nbsp;&nbsp;
 											<a href="<@s.url value="/admin/rolesite/${r.id!}/edit" />"><i class="fa fa-briefcase"></i></a>
+											&nbsp;&nbsp;&nbsp;
+											<a href="<@s.url value="/admin/roleprivilege/${r.id!}/edit" />"><i class="fa fa-plus-square"></i></a>
 										</td>
 									</tr>
 									</#list>

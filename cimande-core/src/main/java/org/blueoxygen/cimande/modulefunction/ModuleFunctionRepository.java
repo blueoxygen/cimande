@@ -23,10 +23,16 @@ public interface ModuleFunctionRepository extends DefaultRepository<ModuleFuncti
 			int status, Pageable pageable);
 	
 	@Query("SELECT m FROM ModuleFunction m "
-			+ " WHERE (m.name LIKE %?1% OR m.description LIKE %?2%) "
+			+ " WHERE (m.name LIKE %?1% OR m.description LIKE %?1%) "
 			+ " AND m.master IS NULL "
-			+ " AND m.id NOT IN (SELECT moduleFunction.id FROM RolePrivilege WHERE role.id = ?3 AND logInformation.activeFlag = ?4) "
-			+ " AND m.logInformation.activeFlag = ?5 ")
-	Page<ModuleFunction> findByRolePrivilege(String n, String d, String roleId, int stat, 
-			int status, Pageable pageable);
+			+ " AND m.id NOT IN (SELECT moduleFunction.id FROM RolePrivilege WHERE role.id = ?2 AND logInformation.activeFlag = ?3) "
+			+ " AND m.logInformation.activeFlag = ?3 ")
+	Page<ModuleFunction> findByRolePrivilege(String q, String roleId, int status, Pageable pageable);
+
+	@Query("SELECT m FROM ModuleFunction m "
+			+ " WHERE (m.name LIKE %?1% OR m.description LIKE %?1%) "
+			+ " AND m.master IS NULL "
+			+ " AND m.id NOT IN (SELECT moduleFunction.id FROM RoleSitePrivilege WHERE roleSite.id = ?2 AND logInformation.activeFlag = ?3) "
+			+ " AND m.logInformation.activeFlag = ?3 ")
+	Page<ModuleFunction> findByRoleSite(String q, String roleSiteId, int status, Pageable pageable);
 }

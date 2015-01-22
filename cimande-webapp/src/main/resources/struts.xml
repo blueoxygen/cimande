@@ -11,7 +11,8 @@
 		<interceptors>
 			<interceptor name="sessionCredential" class="org.meruvian.yama.webapp.interceptor.SessionCredentialInterceptor" />
 			<interceptor name="oauth2ClientContext" class="org.meruvian.yama.webapp.interceptor.OAuth2ClientContextInterceptor" />
-
+			<interceptor name="menu" class="org.blueoxygen.cimande.security.menu.TreeMenuInterceptor" />
+			
 			<interceptor-stack name="adminStack">
 				<interceptor-ref name="exception" />
 				<interceptor-ref name="logger" />
@@ -43,6 +44,7 @@
 				</interceptor-ref>
 				<interceptor-ref name="sessionCredential" />
 				<interceptor-ref name="oauth2ClientContext" />
+				<interceptor-ref name="menu" />
 			</interceptor-stack>
 		</interceptors>
 

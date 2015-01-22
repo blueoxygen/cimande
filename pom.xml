@@ -278,7 +278,6 @@
 	<modules>
 		<module>cimande-webapp</module>
 		<module>cimande-core</module>
-<!-- 		<module>papaje-core</module> -->
 		<module>yama-oauth-client-core</module>
 	</modules>
 

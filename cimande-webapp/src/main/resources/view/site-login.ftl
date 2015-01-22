@@ -10,7 +10,7 @@
 				<div class="row">
 					<div class="form-box" id="login-box">
 						<div class="header bg-gray">
-							<img src="<@s.url value="/job/logo" />" />
+							<img src="<@s.url value="/logo" />" />
 						</div>
 						<div class="col-md-12 bg-gray">
 							<@s.form id="loginForm" action="${request.contextPath}${request.servletPath}/do" method="post" theme="bootstrap">

@@ -44,17 +44,9 @@
 								<i class="fa fa-angle-left pull-right"></i>
 							</a>
 							<ul class="treeview-menu">
-								<#if isSiteManager>
-									<li><a href="<@s.url value="/backend/jobs/manager" />"><i class="fa fa-angle-double-right"></i> Jobs</a></li>
-								</#if>
-								<#if isEmployer>
-									<li><a href="<@s.url value="/backend/company" />"><i class="fa fa-angle-double-right"></i> Company</a></li>
-									<li><a href="<@s.url value="/backend/jobs" />"><i class="fa fa-angle-double-right"></i> Jobs</a></li>
-								</#if>
-								<#if isEmployee>
-									<li><a href="<@s.url value="/backend/jobs/applied" />"><i class="fa fa-angle-double-right"></i>Applied Job</a></li>
-									<li><a href="<@s.url value="/backend/jobs/list" />"><i class="fa fa-angle-double-right"></i> Jobs</a></li>
-								</#if>
+									<#list menus.content as m>
+									<li><a href="<@s.url value="${m.moduleUrl}" />"><i class="fa fa-angle-double-right"></i> ${m.name}</a></li>
+								</#list>
 							</ul>
 						</li>
 						<#-- <li>

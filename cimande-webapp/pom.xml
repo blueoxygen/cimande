@@ -176,11 +176,6 @@
 			<artifactId>cimande-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.blueoxygen.cimande</groupId> -->
-<!-- 			<artifactId>papaje-core</artifactId> -->
-<!-- 			<version>${project.version}</version> -->
-<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.blueoxygen.cimande</groupId>
 			<artifactId>yama-oauth-client-core</artifactId>

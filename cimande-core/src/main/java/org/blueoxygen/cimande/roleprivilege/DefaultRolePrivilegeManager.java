@@ -1,13 +1,13 @@
 package org.blueoxygen.cimande.roleprivilege;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.blueoxygen.cimande.modulefunction.ModuleFunction;
 import org.blueoxygen.cimande.modulefunction.ModuleFunctionRepository;
 import org.meruvian.yama.core.LogInformation;
-import org.meruvian.yama.core.role.JpaRole;
-import org.meruvian.yama.core.role.JpaRoleRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,15 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 public class DefaultRolePrivilegeManager implements RolePrivilegeManager {
-	
 	@Inject
 	private RolePrivilegeRepository rolePrivilegeRepository;
 	
 	@Inject
 	private ModuleFunctionRepository moduleFunctionRepository;
-	
-	@Inject
-	private JpaRoleRepository roleRepository;
 
 	@Override
 	@Transactional
@@ -61,15 +57,20 @@ public class DefaultRolePrivilegeManager implements RolePrivilegeManager {
 	}
 
 	@Override
-	public Page<ModuleFunction> findModuleFunctionByRole(String roleId,
+	public Page<RolePrivilege> findRolePrivilegeByRole(String roleId,
 			Pageable pageable) {
-		return rolePrivilegeRepository.findModuleFunctionByRole(roleId, LogInformation.ACTIVE, pageable);
+		return rolePrivilegeRepository.findRolePrivilegeByRole(roleId, LogInformation.ACTIVE, pageable);
 	}
 
 	@Override
-	public Page<ModuleFunction> findModuleFunctionByRole(String q, String roleId, Pageable pageable) {
+	public Page<ModuleFunction> findUnselectedModuleFunctionByRole(String q, String roleId, Pageable pageable) {
 		q = StringUtils.defaultString(q, "");
-		return moduleFunctionRepository.findByRolePrivilege(q, q, roleId, LogInformation.ACTIVE, LogInformation.ACTIVE, pageable);
+		return moduleFunctionRepository.findByRolePrivilege(q, roleId, LogInformation.ACTIVE, pageable);
+	}
+
+	@Override
+	public Page<ModuleFunction> findModuleFunctionByRoles(List<String> roles, Pageable pageable) {
+		return rolePrivilegeRepository.findModuleFunctionByRoles(roles, LogInformation.ACTIVE, pageable);
 	}
 	
 }

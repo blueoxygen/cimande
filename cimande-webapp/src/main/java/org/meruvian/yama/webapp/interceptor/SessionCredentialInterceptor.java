@@ -46,15 +46,9 @@ public class SessionCredentialInterceptor extends AbstractInterceptor {
 
 		List<String> roles = SessionCredentials.getAuthorities();
 		boolean isAdmin = roles.contains(StringUtils.upperCase(adminRole));
-		boolean isEmployer = roles.contains("EMPLOYER");
-		boolean isEmployee = roles.contains("EMPLOYEE");
-		boolean isSiteManager = roles.contains("SMANAGER");
 
 		stack.set("currentRoles", roles);
 		stack.set("isAdmin", isAdmin);
-		stack.set("isEmployer", isEmployer);
-		stack.set("isEmployee", isEmployee);
-		stack.set("isSiteManager", isSiteManager);
 		
 		return invocation.invoke();
 	}
